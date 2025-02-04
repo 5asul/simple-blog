@@ -1,0 +1,21 @@
+@startuml
+left to right direction
+actor Visitor <<Not Authenticated>>
+actor Author <<Authenticated>>
+
+rectangle BlogSystem {
+  Visitor --> (View Posts)
+  Visitor --> (Register)
+  Visitor --> (Login)
+  
+  Author --> (Create Post)
+  Author --> (Edit Post)
+  Author --> (Delete Post)
+  Author --> (Add Comment)
+  Author --> (View Dashboard)
+  
+  (Create Post) .> (Login) : requires
+  (Edit Post) .> (View Dashboard) : extends
+  (Delete Post) .> (View Dashboard) : extends
+}
+@enduml
