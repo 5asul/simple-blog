@@ -15,8 +15,8 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   try {
-    const token = await loginUserService(req.body);
-    res.status(HTTP_STATUS.OK).json({ message: 'Login successful', token });
+    const data = await loginUserService(req.body);
+    res.status(HTTP_STATUS.OK).json({ message: 'Login successful', data });
   } catch (error: any) {
     res.status(HTTP_STATUS.UNAUTHORIZED).json({ error: error.message });
   }

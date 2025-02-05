@@ -39,9 +39,10 @@ model User {
 
 // Blog Post Model
 model BlogPost {
-  id         Int     @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   title      String
   content    String
+  image      String?    // Base64-encoded image data
   status     PostStatus @default(DRAFT)
   createdAt  DateTime   @default(now())
   author     User       @relation(fields: [authorId], references: [id])
