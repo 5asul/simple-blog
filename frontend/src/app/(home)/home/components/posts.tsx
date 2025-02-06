@@ -79,17 +79,16 @@ export function Posts() {
 <section className="container mx-auto my-16 px-4">
         <h2 className="text-3xl font-bold text-center mb-8">Latest Posts</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[1, 2, 3].map((post) => (
-            <div key={post} className="bg-white p-6 rounded-lg shadow-lg">
+          {POSTS.map((post,index) => (
+            <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
               <img
-                src="https://via.placeholder.com/400x300"
-                alt={`Post ${post}`}
+                src={post.img}
+                alt={post.title}
                 className="rounded-lg mb-4"
               />
-              <h3 className="text-xl font-bold mb-2">Post Title {post}</h3>
-              <p className="text-gray-600 mb-4">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur.
+              <h3 className="text-xl font-bold mb-2">{post.title}</h3>
+              <p className="text-gray-600 mb-4 ">
+               {post.desc}
               </p>
               <a
                 href="#"

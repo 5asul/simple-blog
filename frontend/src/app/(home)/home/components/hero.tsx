@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { Button, Typography, Input } from "@material-tailwind/react";
+
 
 
 function Hero() {

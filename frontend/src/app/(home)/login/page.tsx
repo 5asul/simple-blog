@@ -1,10 +1,9 @@
 "use client"
 
+import { useRouter } from 'next/navigation'
 import React from 'react'
-import type { ReactElement } from 'react'
 
-import LayoutGuest from '@/layouts/Guest'
-import { useRouter } from 'next/router'
+
 
 
 type LoginForm = {
@@ -13,13 +12,18 @@ type LoginForm = {
   remember: boolean
 }
 
-export const Login = ({ toggleLogin }: { toggleLogin: () => void }) => {
+export const Login = ({ toggleLogin,toggleRegister }: { toggleLogin: () => void,toggleRegister:()=>void }) => {
   const router = useRouter()
 
   const handleSubmit = (formValues: LoginForm) => {
     router.push('/dashboard')
     console.log('Form values', formValues)
   }
+
+  const handleRegister = () => {
+     toggleLogin()
+     toggleRegister()
+  };
 
   const initialValues: LoginForm = {
     login: 'john.doe',
@@ -55,18 +59,24 @@ export const Login = ({ toggleLogin }: { toggleLogin: () => void }) => {
           />
         </div>
         <button
-          type="submit"
+          onClick={()=>{toggleLogin(); handleSubmit(initialValues)}}
           className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
         >
           Login
         </button>
       </form>
       <button
-        onClick={() => { toggleLogin(); handleSubmit(initialValues); }}
-        className="mt-4 w-full text-gray-600 hover:text-blue-600"
-      >
-        Close
-      </button>
+          onClick={handleRegister} // Navigate to the register page
+          className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-300"
+        >
+          Register
+        </button>
+        <button
+          onClick={() => { toggleLogin()}}
+          className="mt-4 w-full text-gray-600 hover:text-blue-600"
+        >
+          Close
+        </button>
     </div>
   </div>
   )

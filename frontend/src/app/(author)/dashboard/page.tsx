@@ -1,5 +1,5 @@
 // app/admin/dashboard/page.tsx
-import Link from "next/link";
+
 import BarChart from "../components/BarChart";
 
 interface MetricCardProps {

@@ -1,9 +1,5 @@
-"use client"
-// app/admin/layout.js
-
-
+"use client";
 import { ReactNode } from "react";
-
 import Aside from "./components/Aside";
 
 interface AdminLayoutProps {
@@ -11,13 +7,12 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  
-
   return (
     <div className="font-sans bg-gray-50 min-h-screen flex">
-        <Aside/>
+      <Aside />
+      <main className="flex-1 md:ml-64">
         {children}
-      
+      </main>
     </div>
   );
 }
