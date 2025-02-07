@@ -18,7 +18,7 @@ export async function DELETE(request: Request, { params }: { params: Promise< { 
   console.log(`Deleting chat room with ID: ${id}`);
 
   // Simulate a call to your backend to delete the chat room
-  const response = await fetch(`${ENDPOINTS.CHAT_ROOMS}/delete/${id}`, {
+  const response = await fetch(`${ENDPOINTS.POSTS}/delete-post/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

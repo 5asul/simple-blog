@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 
 
@@ -23,15 +24,19 @@ const ARTICLES = [
 
 export function Articles() {
   return (
-    <section className="container mx-auto my-16 px-4">
+    <section id="article" className="container mx-auto my-16 px-4">
+      <h2 className="text-3xl font-bold text-center mb-8">Latest Articles</h2>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       
      {ARTICLES.map((artical,index)=>(
        <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
-       <img
+       <Image
          src={artical.img}
          alt="Popular Article"
-         className="rounded-lg mb-4"
+         className="rounded-lg mb-4 w-full"
+         layout="responsive"
+         width={100}
+         height={50}
        />
        <h2 className="text-2xl font-bold mb-2">{artical.title}</h2>
        <p className="text-gray-600 mb-4">

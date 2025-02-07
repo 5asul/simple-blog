@@ -1,11 +1,12 @@
 // src/components/constants/endpoints.ts
 
-const BASE_URL ='https://chat-io-backend.vercel.app';
+const BASE_URL ='http://localhost:5000';
 
 export const ENDPOINTS = {
   
-    LOGIN: `${BASE_URL}/api/auth/login`,
-    REGISTER: `${BASE_URL}/api/auth/register`,
-    CHAT_ROOMS: `${BASE_URL}/api/chat-rooms`,
+    LOGIN: `${BASE_URL}/api/author/login`,
+    REGISTER: `${BASE_URL}/api/author/register`,
+    POSTS: `${BASE_URL}/api/author`,
+    VISITOR_POSTS: `${BASE_URL}/api/visitor/get-posts`,
     MESSAGES: `${BASE_URL}/api/messages`,
   };

@@ -68,11 +68,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setLogError(null); // Clear any previous errors
         setIsLoading(false); // Hide loading spinner
       } else {
-        setLogError(data.message || "Login failed");
-        throw new Error(data.message || "Login failed");
+        setLogError(data.message || "check your email or password and re-write them");
+        throw new Error(data.message || "check your email or password and re-write them");
       }
     } catch (err) {
-      setLogError((err as Error).message || "Login failed");
+      setLogError((err as Error).message || "internet issue try again");
       setIsLoading(false); // Hide loading spinner
       throw err;
     }
@@ -109,7 +109,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(null);
     Cookies.remove("user");
     Cookies.remove("token");
-    router.push("/login");
+    router.push("/home");
   };
 
   return (

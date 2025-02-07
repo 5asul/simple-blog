@@ -1,3 +1,5 @@
+import { Post } from "./Post";
+
 export interface User {
   id: number;
   username: string;
@@ -5,4 +7,6 @@ export interface User {
   password: string;
   createdAt: string;
   updatedAt: string;
+  posts: Post[];
+  comments: Comment[];
 }

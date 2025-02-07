@@ -1,11 +1,16 @@
 // app/admin/create-post/page.tsx
 "use client"; // Required for client-side interactivity
 import { useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useAuthor } from "@/hooks/useAuthor";
 
 export default function CreatePostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string>("");
+  const router = useRouter();
+  const{createPosts,isLoading}=useAuthor();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -20,23 +25,13 @@ export default function CreatePostPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const response = await fetch("/api/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title, content, image }),
-    });
-
-    if (response.ok) {
-      alert("Post created successfully!");
-      setTitle("");
-      setContent("");
-      setImage(null);
-    } else {
-      alert("Failed to create post.");
+    try {
+      await createPosts(title, content, image );
+      router.push("/post-maintenance");
+    } catch (error) {
+      console.error(error);
     }
+
   };
 
   return (
@@ -117,10 +112,13 @@ export default function CreatePostPage() {
           </div>
           {image && (
             <div className="mt-4">
-              <img
+              <Image
                 src={image}
                 alt="Preview"
                 className="w-32 h-32 object-cover rounded-lg"
+                width={50}
+                height={50}
+                
               />
             </div>
           )}
@@ -129,9 +127,10 @@ export default function CreatePostPage() {
         {/* Submit Button */}
         <button
           type="submit"
+          disabled={isLoading}
           className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
         >
-          Create Post
+          {isLoading ? "Creating..." : "Create Post"}
         </button>
       </form>
     </div>

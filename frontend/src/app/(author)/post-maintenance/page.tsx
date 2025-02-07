@@ -1,45 +1,49 @@
-// app/admin/posts-maintenance/page.tsx
-"use client"; // Required for client-side interactivity
+"use client";
+import { useAuthor } from "@/hooks/useAuthor";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface Post {
-  id: number;
-  title: string;
-  content: string;
-  image?: string; // Base64-encoded image data
-  status: "Draft" | "Published" | "Archived";
-  createdAt: string;
-}
 
 export default function PostsMaintenancePage() {
-  const [posts, setPosts] = useState<Post[]>([
-    {
-      id: 1,
-      title: "Introduction to Next.js",
-      content: "Learn the basics of Next.js.",
-      image: "data:image/png;base64,...", // Example Base64 image
-      status: "Published",
-      createdAt: "2023-10-01",
-    },
-    {
-      id: 2,
-      title: "Advanced TypeScript Techniques",
-      content: "Master advanced TypeScript concepts.",
-      status: "Draft",
-      createdAt: "2023-10-05",
-    },
-  ]);
+  const { posts, isLoading, deletePost, updatePostStatus } = useAuthor();
+  const [deleting, setDeleting] = useState<number | null>(null);
+  const router = useRouter();
 
-  const handleStatusChange = (id: number, newStatus: Post["status"]) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === id ? { ...post, status: newStatus } : post
-      )
-    );
+  const handleStatusChange = async (id: number, newStatus: number) => {
+    try {
+      await updatePostStatus(String(id), newStatus);
+      router.refresh();
+    } catch (error) {
+      console.error("Error updating post status:", error);
+      alert("Failed to update post status. Please try again.");
+    }
   };
 
-  const handleDeletePost = (id: number) => {
-    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+  const getStatusLabel = (status: number) => {
+    switch (status) {
+      case 1:
+        return "Draft";
+      case 2:
+        return "Published";
+      case 3:
+        return "Archived";
+      default:
+        return "Unknown";
+    }
+  };
+
+  const handleDeletePost = async (roomId: number) => {
+    setDeleting(roomId);
+    try {
+      await deletePost(String(roomId));
+      router.refresh();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      alert("Failed to delete post. Please try again.");
+    } finally {
+      setDeleting(null);
+    }
   };
 
   return (
@@ -69,70 +73,83 @@ export default function PostsMaintenancePage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {posts.map((post) => (
-              <tr key={post.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {post.title}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {post.image && (
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-16 h-16 object-cover rounded-lg"
-                    />
-                  )}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <span
-                    className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                      post.status === "Draft"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : post.status === "Published"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    {post.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {post.createdAt}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center space-x-4">
-                  <select
-                    value={post.status}
-                    onChange={(e) =>
-                      handleStatusChange(post.id, e.target.value as Post["status"])
-                    }
-                    className="px-2 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                  >
-                    <option value="Draft">Draft</option>
-                    <option value="Published">Published</option>
-                    <option value="Archived">Archived</option>
-                  </select>
-                  <button
-                    onClick={() => handleDeletePost(post.id)}
-                    className="text-red-600 hover:text-red-800"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      ></path>
-                    </svg>
-                  </button>
+            {isLoading ? (
+              <tr>
+                <td colSpan={5} className="text-center py-6">
+                  <div className="flex justify-center items-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+                  </div>
                 </td>
               </tr>
-            ))}
+            ) : (
+              posts.map((post) => (
+                <tr key={post.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {post.title}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {post.image && (
+                      <Image
+                        src={`data:image/png;base64,${post.image}`}
+                        alt={post.title}
+                        className="w-16 h-16 object-cover rounded-lg"
+                        width={50}
+                        height={50}
+                      />
+                    )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <span
+                      className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                        post.status === 1
+                          ? "bg-yellow-100 text-yellow-800"
+                          : post.status === 2
+                          ? "bg-green-100 text-green-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {getStatusLabel(post.status)}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {post.createdAt}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center space-x-4">
+                    <select
+                      value={String(post.status)}
+                      onChange={(e) =>
+                        handleStatusChange(post.id, Number(e.target.value))
+                      }
+                      className="px-2 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    >
+                      <option value="1">Draft</option>
+                      <option value="2">Published</option>
+                      <option value="3">Archived</option>
+                    </select>
+                    <button
+                      onClick={() => handleDeletePost(post.id)}
+                      className="text-red-600 hover:text-red-800"
+                      disabled={deleting === post.id}
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        ></path>
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

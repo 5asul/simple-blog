@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { ENDPOINTS } from '@/constants/endpoints';
 
 export async function POST(request: Request) {
-  const { name, userIds } = await request.json();
+  const { title,content,image } = await request.json();
   const authHeader = request.headers.get('Authorization');
 
   if (!authHeader) {
@@ -19,12 +19,12 @@ export async function POST(request: Request) {
   }
 
   try {
-    const response = await fetch(`${ENDPOINTS.CHAT_ROOMS}/create`, {
+    const response = await fetch(`${ENDPOINTS.POSTS}/create-posts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,      },
-      body: JSON.stringify({ name, userIds }), // Include userIds in the request
+      body: JSON.stringify({ title,content,image }), // Include userIds in the request
     });
 
     const data = await response.json();

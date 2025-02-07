@@ -18,11 +18,11 @@ datasource db {
 }
 
 // Enum for post status
-enum PostStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
+//  enum PostStatus {
+//   DRAFT
+//   PUBLISHED
+//   ARCHIVED
+// }
 
 
 // User Model
@@ -43,7 +43,7 @@ model BlogPost {
   title      String
   content    String
   image      String?    // Base64-encoded image data
-  status     PostStatus @default(DRAFT)
+  status     Int @default(1)
   createdAt  DateTime   @default(now())
   author     User       @relation(fields: [authorId], references: [id])
   authorId   Int

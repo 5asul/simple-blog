@@ -1,26 +1,45 @@
 "use client";
 
+import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
-type RegisterForm = {
-  login: string;
-  password: string;
-  remember: boolean;
-};
+
 
 export const Register = ({
+  
   toggleRegister,
   toggleLogin,
 }: {
   toggleRegister: () => void;
   toggleLogin: () => void;
 }) => {
-  const router = useRouter();
 
-  const handleSubmit = (formValues: RegisterForm) => {
-    router.push("/dashboard");
-    console.log("Form values", formValues);
+  const[username,setUsername]=useState<string>("");
+  const[email,setEmail]=useState<string>("");
+  const[password,setPassword]=useState<string>("");
+  const [error,setError]=useState<string | null>(null);
+
+  const router = useRouter();
+  const {register,isLoading,logError}=useAuth();
+
+  const handleSubmit = async (e:React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    try {
+      await register(username,email,password).then(()=>{
+        toggleRegister();
+      router.push("/dashboard");
+      });
+      setError(logError)
+
+      
+    } catch (error) {
+      setError((error as Error).message || "Register failed");
+    }
+    
+    
   };
 
   const handleLogin = () => {
@@ -28,17 +47,26 @@ export const Register = ({
     toggleLogin();
   };
 
-  const initialValues: RegisterForm = {
-    login: "john.doe",
-    password: "bG1sL9eQ1uD2sK3b",
-    remember: true,
-  };
+  
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2" htmlFor="email">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              placeholder="Enter username..."
+            />
+          </div>
           <div className="mb-4">
             <label className="block text-gray-700 mb-2" htmlFor="email">
               Email
@@ -46,6 +74,8 @@ export const Register = ({
             <input
               type="email"
               id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter your email"
             />
@@ -57,19 +87,20 @@ export const Register = ({
             <input
               type="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter your password"
             />
           </div>
           <button
-            onClick={() => {
-              toggleRegister();
-              handleSubmit(initialValues);
-            }}
+            type="submit"
+            disabled={isLoading}
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
           >
-            Submit
+            {isLoading ? "Submitting..." : "Submit"}
           </button>
+          {error && <div className="text-red-500 text-xs">{error}</div>}
         </form>
         <button
           onClick={handleLogin} // Navigate to the register page

@@ -3,17 +3,11 @@
 import React, { useState } from "react";
 import { Login } from "../(auth)/login/page";
 import { Register } from "../(auth)/register/page";
-import Cookies from "js-cookie";
 
-import { useRouter } from "next/navigation";
-
-export default function Navbar() {
+export default function SubNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const storedUser = Cookies.get("user");
-  const storedToken = Cookies.get("token");
-  const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -25,10 +19,6 @@ export default function Navbar() {
 
   const toggleLogin = () => {
     setIsLoginOpen(!isLoginOpen);
-  };
-  
-  const adminRedirect = () => {
-    router.push("/dashboard")
   };
 
   return (
@@ -42,31 +32,14 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 items-center">
-            <a href="#hero" className="text-gray-600 hover:text-blue-600">
-              Home
-            </a>
-            <a href="#posts" className="text-gray-600 hover:text-blue-600">
-              Posts
-            </a>
-            <a href="#article" className="text-gray-600 hover:text-blue-600">
-              Articles
-            </a>
+           
             
-            <div>
-              {storedUser&&storedToken?
-              <button
-              onClick={adminRedirect}
-              className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300"
-            >
-             Admin 
-            </button>: <button
+            <button
               onClick={toggleLogin}
               className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300"
             >
               Login
-            </button>}
-            </div>
-           
+            </button>
           </div>
 
           {/* Mobile Menu Button */}

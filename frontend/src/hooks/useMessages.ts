@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Message } from '../models/Message';
+import { Message } from '../models/Comment';
 import { useAuth } from './useAuth';
 
 export const useMessages = () => {

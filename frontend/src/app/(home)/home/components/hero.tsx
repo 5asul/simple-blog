@@ -5,7 +5,7 @@
 
 function Hero() {
   return (
-    <header className="mt-5 bg-white p-8">
+    <header id="hero" className="mt-5 bg-white p-8">
     <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20">
         <div className="container mx-auto text-center">
           <h1 className="text-5xl font-bold mb-4">Welcome to My Blog</h1>

@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 import type { Metadata } from "next";
 
@@ -22,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth " >
       <head>
         <link
           rel="stylesheet"
@@ -35,7 +36,7 @@ export default function RootLayout({
       </head>
       <body className={roboto.className}>
         
-          {children}
+      <AuthProvider>{children}</AuthProvider>
          
        
       </body>

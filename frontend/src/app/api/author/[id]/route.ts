@@ -14,7 +14,7 @@ export async function GET(
   }
 
   try {
-    const response = await fetch(`${ENDPOINTS.CHAT_ROOMS}/${id}`, {
+    const response = await fetch(`${ENDPOINTS.POSTS}/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

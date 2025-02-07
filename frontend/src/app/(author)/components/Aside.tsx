@@ -1,19 +1,25 @@
 "use client";
+import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { FaEdit, FaPlus, FaSignOutAlt, FaTachometerAlt, FaTimes } from "react-icons/fa";
+import { FaEdit, FaPlus,FaHome, FaSignOutAlt, FaTachometerAlt, FaTimes } from "react-icons/fa";
 
 export default function Aside() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router =useRouter();
+  const{logout}=useAuth();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const handleHome = () => {
+    router.replace("/home")
+  }
   const handleLogout = () => {
-    router.replace("/")
+    logout()
+    router.replace("/home")
   }
 
   return (
@@ -59,7 +65,11 @@ export default function Aside() {
             <FaEdit className="mr-2" /> Posts Maintenance
           </Link>
         </nav>
-
+        <div className="absolute bottom-14 w-full p-6">
+          <button onClick={()=>{handleHome()}} className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center">
+            <FaHome className="mr-2" /> Home
+          </button>
+        </div>
         {/* Logout Button */}
         <div className="absolute bottom-0 w-full p-6">
           <button onClick={()=>{handleLogout()}} className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center">
