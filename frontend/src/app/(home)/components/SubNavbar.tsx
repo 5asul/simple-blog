@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Login } from "../(auth)/login/page";
 import { Register } from "../(auth)/register/page";
+import Link from "next/link";
 
 export default function SubNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,9 +27,9 @@ export default function SubNavbar() {
       <nav className="bg-white shadow-lg">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           {/* Logo */}
-          <a href="/home" className="text-2xl font-bold text-blue-600">
+          <Link href="/home" className="text-2xl font-bold text-blue-600">
             MyBlog
-          </a>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 items-center">
@@ -75,27 +76,27 @@ export default function SubNavbar() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden px-6 py-4">
-            <a
+            <Link
               href="#"
               className="block text-gray-600 hover:text-blue-600 mb-2"
             >
               Home
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="block text-gray-600 hover:text-blue-600 mb-2"
             >
               Articles
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="block text-gray-600 hover:text-blue-600 mb-2"
             >
               About
-            </a>
-            <a href="#" className="block text-gray-600 hover:text-blue-600">
+            </Link>
+            <Link href="#" className="block text-gray-600 hover:text-blue-600">
               Contact
-            </a>
+            </Link>
           </div>
         )}
       </nav>

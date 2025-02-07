@@ -1,6 +1,9 @@
 // src/components/constants/endpoints.ts
+import dotenv from 'dotenv';
 
-const BASE_URL ='http://localhost:5000';
+dotenv.config();
+
+const BASE_URL =process.env.NEXT_PUBLIC_API_URL;
 
 export const ENDPOINTS = {
   

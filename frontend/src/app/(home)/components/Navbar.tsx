@@ -6,6 +6,7 @@ import { Register } from "../(auth)/register/page";
 import Cookies from "js-cookie";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,7 +27,7 @@ export default function Navbar() {
   const toggleLogin = () => {
     setIsLoginOpen(!isLoginOpen);
   };
-  
+
   const adminRedirect = () => {
     router.push("/dashboard")
   };
@@ -36,21 +37,21 @@ export default function Navbar() {
       <nav className="bg-white shadow-lg">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           {/* Logo */}
-          <a href="/home" className="text-2xl font-bold text-blue-600">
+          <Link href="/home" className="text-2xl font-bold text-blue-600">
             MyBlog
-          </a>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 items-center">
-            <a href="#hero" className="text-gray-600 hover:text-blue-600">
+            <Link href="#hero" className="text-gray-600 hover:text-blue-600">
               Home
-            </a>
-            <a href="#posts" className="text-gray-600 hover:text-blue-600">
+            </Link>
+            <Link href="#posts" className="text-gray-600 hover:text-blue-600">
               Posts
-            </a>
-            <a href="#article" className="text-gray-600 hover:text-blue-600">
+            </Link>
+            <Link href="#article" className="text-gray-600 hover:text-blue-600">
               Articles
-            </a>
+            </Link>
             
             <div>
               {storedUser&&storedToken?
@@ -102,27 +103,27 @@ export default function Navbar() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden px-6 py-4">
-            <a
+            <Link
               href="#"
               className="block text-gray-600 hover:text-blue-600 mb-2"
             >
               Home
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="block text-gray-600 hover:text-blue-600 mb-2"
             >
               Articles
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="block text-gray-600 hover:text-blue-600 mb-2"
             >
               About
-            </a>
-            <a href="#" className="block text-gray-600 hover:text-blue-600">
+            </Link>
+            <Link href="#" className="block text-gray-600 hover:text-blue-600">
               Contact
-            </a>
+            </Link>
           </div>
         )}
       </nav>
