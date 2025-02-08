@@ -26,7 +26,7 @@ export default function Aside() {
     <>
       {/* Sidebar */}
       <div
-        className={`bg-white shadow-lg w-64 fixed h-full transition-transform duration-300 ease-in-out ${
+        className={`bg-white shadow-lg w-64 fixed h-full transition-transform z-30 duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-64"
         } md:translate-x-0`}
       >
