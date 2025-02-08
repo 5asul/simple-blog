@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const BASE_URL =process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL ="https://simple-blog-backend-nu.vercel.app";
 
 export const ENDPOINTS = {
   
