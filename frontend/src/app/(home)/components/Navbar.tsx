@@ -119,13 +119,13 @@ export default function Navbar() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden px-6 py-4">
-            <Link href="#hero" className="text-gray-600 hover:text-blue-600">
+            <Link href="#hero" className="text-gray-600 px-9 hover:text-blue-600">
               Home
             </Link>
-            <Link href="#posts" className="text-gray-600 hover:text-blue-600">
+            <Link href="#posts" className="text-gray-600 px-9 hover:text-blue-600">
               Posts
             </Link>
-            <Link href="#article" className="text-gray-600 hover:text-blue-600">
+            <Link href="#article" className="text-gray-600 px-9 hover:text-blue-600">
               Articles
             </Link>
           </div>
