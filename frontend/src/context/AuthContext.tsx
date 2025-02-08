@@ -63,8 +63,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const { user, token } = data.data;
         setUser(user);
         setToken(token);
-        Cookies.set("user", JSON.stringify(user),{expires:7});
-        Cookies.set("token", token,{expires:7});
+        Cookies.set("user", JSON.stringify(user),{expires:1/24});
+        Cookies.set("token", token,{expires:1/24});
         setLogError(null); // Clear any previous errors
         setIsLoading(false); // Hide loading spinner
       } else {

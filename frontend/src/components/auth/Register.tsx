@@ -4,16 +4,15 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-
-
-export const Register = ({
-  
-  toggleRegister,
-  toggleLogin,
-}: {
-  toggleRegister: () => void;
+interface LoginProps {
   toggleLogin: () => void;
-}) => {
+  toggleRegister: () => void;
+}
+
+
+
+
+ const Register:React.FC<LoginProps> = ({ toggleLogin, toggleRegister }) => {
 
   const[username,setUsername]=useState<string>("");
   const[email,setEmail]=useState<string>("");
@@ -120,3 +119,5 @@ export const Register = ({
     </div>
   );
 };
+
+export default Register; // Change to default export

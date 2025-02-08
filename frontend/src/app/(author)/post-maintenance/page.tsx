@@ -1,9 +1,8 @@
 "use client";
 import { useAuthor } from "@/hooks/useAuthor";
-import Image from "next/image";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 
 export default function PostsMaintenancePage() {
   const { posts, isLoading, deletePost, updatePostStatus } = useAuthor();
@@ -87,17 +86,7 @@ export default function PostsMaintenancePage() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {post.title}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {post.image && (
-                      <Image
-                        src={`data:image/png;base64,${post.image}`}
-                        alt={post.title}
-                        className="w-16 h-16 object-cover rounded-lg"
-                        width={50}
-                        height={50}
-                      />
-                    )}
-                  </td>
+
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <span
                       className={`px-2 py-1 text-xs font-semibold rounded-full ${

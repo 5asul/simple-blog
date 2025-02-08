@@ -1,12 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { Login } from "../(auth)/login/page";
-import { Register } from "../(auth)/register/page";
+
 import Cookies from "js-cookie";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const Login = dynamic(() => import("@/components/auth/Login"), { ssr: false });
+const Register = dynamic(() => import("@/components/auth/Register"), {
+  ssr: false,
+});
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,7 +34,7 @@ export default function Navbar() {
   };
 
   const adminRedirect = () => {
-    router.push("/dashboard")
+    router.push("/dashboard");
   };
 
   return (
@@ -52,32 +57,43 @@ export default function Navbar() {
             <Link href="#article" className="text-gray-600 hover:text-blue-600">
               Articles
             </Link>
-            
+
             <div>
-              {storedUser&&storedToken?
-              <button
-              onClick={adminRedirect}
-              className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300"
-            >
-             Admin 
-            </button>: <button
-              onClick={toggleLogin}
-              className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300"
-            >
-              Login
-            </button>}
+              {storedUser && storedToken ? (
+                <button
+                  onClick={adminRedirect}
+                  className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300"
+                >
+                  Admin
+                </button>
+              ) : (
+                <button
+                  onClick={toggleLogin}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300"
+                >
+                  Login
+                </button>
+              )}
             </div>
-           
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
-            <button
-              onClick={toggleLogin}
-              className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300 mr-4"
-            >
-              Login
-            </button>
+          {storedUser && storedToken ? (
+                <button
+                onClick={adminRedirect}
+                className="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300 mr-4"
+              >
+                Admin
+              </button>
+              ) : (
+                <button
+                onClick={toggleLogin}
+                className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300 mr-4"
+              >
+                Login
+              </button>
+              )}
             <button
               onClick={toggleMenu}
               className="text-gray-600 hover:text-blue-600 focus:outline-none"

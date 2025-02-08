@@ -4,12 +4,15 @@ import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
+interface LoginProps {
+  toggleLogin: () => void;
+  toggleRegister: () => void;
+}
 
 
 
 
-
-export const Login = ({ toggleLogin,toggleRegister }: { toggleLogin: () => void,toggleRegister:()=>void }) => {
+const Login:React.FC<LoginProps> = ({ toggleLogin, toggleRegister }) => {
   
   const[email,setEmail]=useState("");
   const[password,setPassword]=useState("");
@@ -18,20 +21,22 @@ export const Login = ({ toggleLogin,toggleRegister }: { toggleLogin: () => void,
   const { login, logError, isLoading } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
+    e.preventDefault();
+    setError(null);
 
-    try {
-      await login(email,password).then(() =>{
-        toggleLogin();
-      router.push('/dashboard')
-      });
-      setError(logError);
-      
-    } catch (error) {
-      setError((error as Error).message || "Login failed");
+    if (!email || !password) {
+      setError("Please fill in all fields.");
+      return;
     }
-  }
+  
+    try {
+      await login(email, password);
+      toggleLogin();
+      router.push('/dashboard');
+    } catch (error) {
+      setError((error as Error).message || logError);
+    }
+  };
 
   const handleRegister = () => {
      toggleLogin()
@@ -56,6 +61,7 @@ export const Login = ({ toggleLogin,toggleRegister }: { toggleLogin: () => void,
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             placeholder="Enter your email"
+            disabled={isLoading} // Disable input while loading
             required
           />
         </div>
@@ -73,6 +79,7 @@ export const Login = ({ toggleLogin,toggleRegister }: { toggleLogin: () => void,
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             required
             placeholder="Enter your password"
+            disabled={isLoading} // Disable input while loading
           />
         </div>
         <button
@@ -82,17 +89,23 @@ export const Login = ({ toggleLogin,toggleRegister }: { toggleLogin: () => void,
         >
           {isLoading ? "Loading..." : "Login"}
         </button>
-        {error && <div className="text-red-500 text-xs">{error}</div>}
+        {error && (
+  <div className="mt-4 p-2 bg-red-100 text-red-600 text-sm rounded-lg text-center">
+    {error}
+  </div>
+)}
       </form>
       <button
           onClick={handleRegister} // Navigate to the register page
           className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-300"
+          aria-label="Register"
         >
           Register
         </button>
         <button
           onClick={() => { toggleLogin()}}
           className="mt-4 w-full text-gray-600 hover:text-blue-600"
+          aria-label="Close"
         >
           Close
         </button>
@@ -100,5 +113,7 @@ export const Login = ({ toggleLogin,toggleRegister }: { toggleLogin: () => void,
   </div>
   )
 }
+
+export default Login; // Change to default export
 
 

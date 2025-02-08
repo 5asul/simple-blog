@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { ENDPOINTS } from '@/constants/endpoints';
 
+
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise< { id: string }> }
 ): Promise<NextResponse>  {
   const authHeader = request.headers.get('Authorization');
 
@@ -22,7 +23,7 @@ export async function PUT(
     );
   }
 
-  const { id } = await params;
+  const { id } =await params;
   console.log(`Updating post with ID: ${id}`);
 
   // Here you might want to extract the new status from the request body.
