@@ -1,9 +1,11 @@
+
+
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 import type { Metadata } from "next";
 
 import { Roboto } from "next/font/google";
-
+import AuthGuard from "./components/AuthGuard";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -22,13 +24,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
-    <html lang="en" className="scroll-smooth " >
+    <html lang="en" className="scroll-smooth ">
       <head>
         <link
           rel="stylesheet"
-          
           integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
@@ -36,10 +36,9 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon.png" type="image/png" />
       </head>
       <body className={roboto.className}>
-        
-      <AuthProvider>{children}</AuthProvider>
-         
-       
+        <AuthProvider>
+          <AuthGuard>{children}</AuthGuard>
+        </AuthProvider>
       </body>
     </html>
   );
