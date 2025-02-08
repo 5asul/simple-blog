@@ -10,11 +10,15 @@ export default function CreatePostPage() {
   const [content, setContent] = useState("");
   const [image, setImage] = useState<string>("");
   const router = useRouter();
-  const{createPosts,isLoading}=useAuthor();
+  const { createPosts, isLoading } = useAuthor();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) { // 2MB limit
+        alert("Image size exceeds 2MB. Please upload a smaller image.");
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string); // Convert image to Base64
@@ -26,12 +30,11 @@ export default function CreatePostPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await createPosts(title, content, image );
+      await createPosts(title, content, image);
       router.push("/post-maintenance");
     } catch (error) {
       console.error(error);
     }
-
   };
 
   return (
@@ -98,7 +101,7 @@ export default function CreatePostPage() {
                   ></path>
                 </svg>
                 <p className="text-gray-500 text-sm mt-2">
-                  {image ? "Image selected" : "Click to upload an image"}
+                  {image ? "Image selected" : "Click to upload an image ( الرجاء عدم تخطي الحد الاقصى لحجم الصورة وهو :2 ميقا)"}
                 </p>
               </div>
               <input
@@ -118,7 +121,6 @@ export default function CreatePostPage() {
                 className="w-32 h-32 object-cover rounded-lg"
                 width={50}
                 height={50}
-                
               />
             </div>
           )}
