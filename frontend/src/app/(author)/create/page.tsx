@@ -35,7 +35,7 @@ export default function CreatePostPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 pt-4">
       <h1 className="text-3xl font-bold mb-6">Create Post</h1>
 
       {/* Create Post Form */}
